@@ -23,4 +23,9 @@ interface Request
      * @return array
      */
     public function parameters(): array;
+
+    /**
+     * @return mixed
+     */
+    public function body();
 }

@@ -27,19 +27,32 @@ class Request implements RequestContract
     private $parameters;
 
     /**
+     * @var array
+     */
+    private $body;
+
+    /**
      * Constructor
      *
      * @param Authorizer $authorizer
      * @param string $method
      * @param string $url
      * @param array $parameters
+     * @param array $body
      */
-    public function __construct(Authorizer $authorizer, string $method, string $url, array $parameters)
+    public function __construct(
+        Authorizer $authorizer,
+        string $method,
+        string $url,
+        array $parameters,
+        array $body
+    )
     {
         $this->authorizer = $authorizer;
         $this->method = $method;
         $this->url = $url;
         $this->parameters = $parameters;
+        $this->body = $body;
     }
 
     /**
@@ -47,7 +60,7 @@ class Request implements RequestContract
      */
     public function headers(): array
     {
-        return [
+        $headers = [
             'Accept: application/json',
             'Authorization: ' . $this->authorizer->header(
                 $this->method,
@@ -55,6 +68,12 @@ class Request implements RequestContract
                 $this->parameters
             ),
         ];
+
+        if ($this->body) {
+            $headers[] = 'Content-type: application/json';
+        }
+
+        return $headers;
     }
 
     /**
@@ -79,5 +98,13 @@ class Request implements RequestContract
     public function parameters(): array
     {
         return $this->parameters;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function body()
+    {
+        return json_encode($this->body);
     }
 }

@@ -75,7 +75,7 @@ class TwitterBot
     {
         $url = sprintf('%s/%s', static::API_URL, $path);
 
-        return $this->call('POST', $url, $parameters, ResponseTypes::QUERY_STRING);
+        return $this->call('POST', $url, $parameters, [], ResponseTypes::QUERY_STRING);
     }
 
     /**
@@ -103,7 +103,22 @@ class TwitterBot
     {
         $url = sprintf('%s/%s/%s', static::API_URL, static::API_VERSION, $path);
 
-        return $this->call($method, $url, $parameters, ResponseTypes::JSON);
+        return $this->call($method, $url, $parameters, [], ResponseTypes::JSON);
+    }
+
+    /**
+     * Make a JSON request to the given Twitter API
+     *
+     * @param string $method
+     * @param string $path
+     * @param array $body
+     * @return Response
+     */
+    public function json(string $method, string $path, array $body = []): Response
+    {
+        $url = sprintf('%s/%s/%s', static::API_URL, static::API_VERSION, $path);
+
+        return $this->call($method, $url, [], $body, ResponseTypes::JSON);
     }
 
     /**
@@ -112,13 +127,20 @@ class TwitterBot
      * @param string $method
      * @param string $url
      * @param array $parameters
+     * @param array $body
      * @param int $responseType
      * @return Response
      */
-    private function call(string $method, string $url, array $parameters, int $responseType): Response
+    private function call(
+        string $method,
+        string $url,
+        array $parameters,
+        array $body,
+        int $responseType
+    ): Response
     {
         return $this->client->call(
-            new Request($this->authorizer, $method, $url, $parameters),
+            new Request($this->authorizer, $method, $url, $parameters, $body),
             $responseType
         );
     }

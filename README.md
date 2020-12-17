@@ -53,7 +53,7 @@ if ($response->status() == 200) {
 }
 ```
 
-### Sample of a Authenticated Endpoint
+### Sample of an Authenticated Endpoint
 
 Authenticated endpoints work only with authenticated user tokens.
 A user token includes two parts, user token, and user token secret.

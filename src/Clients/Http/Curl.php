@@ -72,7 +72,7 @@ class Curl implements Client
             $options[CURLOPT_URL] .= '?' . HttpQueryBuilder::build($request->parameters());
         } else {
             $options[CURLOPT_POST] = true;
-            $options[CURLOPT_POSTFIELDS] = HttpQueryBuilder::build($request->parameters());
+            $options[CURLOPT_POSTFIELDS] = $request->body() ?? HttpQueryBuilder::build($request->parameters());
         }
 
         if (!in_array($request->method(), ['GET', 'POST'])) {
