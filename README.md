@@ -1,6 +1,6 @@
-[![Latest Stable Version](https://poser.pugx.org/miladrahimi/phprouter/v/stable)](https://packagist.org/packages/miladrahimi/phprouter)
-[![Total Downloads](https://poser.pugx.org/miladrahimi/phprouter/downloads)](https://packagist.org/packages/miladrahimi/phprouter)
-[![License](https://poser.pugx.org/miladrahimi/phprouter/license)](https://packagist.org/packages/miladrahimi/phprouter)
+[![Latest Stable Version](https://poser.pugx.org/miladrahimi/twitter-bot/v/stable)](https://packagist.org/packages/miladrahimi/twitter-bot)
+[![Total Downloads](https://poser.pugx.org/miladrahimi/twitter-bot/downloads)](https://packagist.org/packages/miladrahimi/twitter-bot)
+[![License](https://poser.pugx.org/miladrahimi/twitter-bot/license)](https://packagist.org/packages/miladrahimi/twitter-bot)
 
 # Twitter Bot
 
