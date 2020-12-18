@@ -14,6 +14,7 @@ use MiladRahimi\TwitterBot\V1\OAuth1\Token;
 class TwitterBot
 {
     private const API_URL = 'https://api.twitter.com';
+    private const UPLOAD_URL = 'https://upload.twitter.com';
     private const API_VERSION = '1.1';
 
     /**
@@ -67,15 +68,16 @@ class TwitterBot
     /**
      * Make a request to the given Twitter OAuth endpoint
      *
+     * @param string $method
      * @param string $path
      * @param array $parameters
      * @return Response
      */
-    public function oauth(string $path, array $parameters = []): Response
+    public function oauth(string $method, string $path, array $parameters = []): Response
     {
         $url = sprintf('%s/%s', static::API_URL, $path);
 
-        return $this->call('POST', $url, $parameters, [], ResponseTypes::QUERY_STRING);
+        return $this->call($method, $url, $parameters, [], ResponseTypes::QUERY_STRING);
     }
 
     /**
@@ -99,7 +101,7 @@ class TwitterBot
      * @param array $parameters
      * @return Response
      */
-    public function request(string $method, string $path, array $parameters = []): Response
+    public function api(string $method, string $path, array $parameters = []): Response
     {
         $url = sprintf('%s/%s/%s', static::API_URL, static::API_VERSION, $path);
 
@@ -114,11 +116,26 @@ class TwitterBot
      * @param array $body
      * @return Response
      */
-    public function json(string $method, string $path, array $body = []): Response
+    public function apiJson(string $method, string $path, array $body = []): Response
     {
         $url = sprintf('%s/%s/%s', static::API_URL, static::API_VERSION, $path);
 
         return $this->call($method, $url, [], $body, ResponseTypes::JSON);
+    }
+
+    /**
+     * Upload a media to the given Twitter API
+     *
+     * @param string $method
+     * @param string $path
+     * @param array $parameters
+     * @return Response
+     */
+    public function upload(string $method, string $path, array $parameters = []): Response
+    {
+        $url = sprintf('%s/%s/%s', static::UPLOAD_URL, static::API_VERSION, $path);
+
+        return $this->call($method, $url, $parameters, [], ResponseTypes::JSON);
     }
 
     /**

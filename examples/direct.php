@@ -7,7 +7,7 @@ require __DIR__ . '/keys.php';
 
 $bot = TwitterBot::create(CONSUMER_KEY, CONSUMER_SECRET);
 $bot->setOAuthToken(TOKEN, TOKEN_SECRET);
-$response = $bot->json('POST', 'direct_messages/events/new.json', [
+$response = $bot->apiJson('POST', 'direct_messages/events/new.json', [
     'event' => [
         'type' => 'message_create',
         'message_create' => [

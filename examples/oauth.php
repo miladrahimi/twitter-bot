@@ -7,7 +7,7 @@ require __DIR__ . '/keys.php';
 
 $bot = TwitterBot::create(CONSUMER_KEY, CONSUMER_SECRET);
 
-$response = $bot->oauth('oauth/request_token', [
+$response = $bot->oauth('POST', 'oauth/request_token', [
     'oauth_callback' => 'https://bp.miladrahimi.com/accounts/callback'
 ]);
 
