@@ -6,7 +6,6 @@ use MiladRahimi\TwitterBot\Clients\Http\Client;
 use MiladRahimi\TwitterBot\Clients\Http\Curl;
 use MiladRahimi\TwitterBot\Clients\Http\Response;
 use MiladRahimi\TwitterBot\Clients\Http\ResponseTypes;
-use MiladRahimi\TwitterBot\V1\OAuth1\Request;
 use MiladRahimi\TwitterBot\V1\OAuth1\Authorizer;
 use MiladRahimi\TwitterBot\V1\OAuth1\Consumer;
 use MiladRahimi\TwitterBot\V1\OAuth1\Token;
@@ -105,7 +104,7 @@ class TwitterBot
     {
         $url = sprintf('%s/%s/%s', static::API_URL, static::API_VERSION, $path);
 
-        return $this->call($method, $url, $parameters, [], ResponseTypes::JSON);
+        return $this->call($method, $url, $parameters);
     }
 
     /**
@@ -120,7 +119,7 @@ class TwitterBot
     {
         $url = sprintf('%s/%s/%s', static::API_URL, static::API_VERSION, $path);
 
-        return $this->call($method, $url, [], $body, ResponseTypes::JSON);
+        return $this->call($method, $url, [], $body);
     }
 
     /**
@@ -128,14 +127,17 @@ class TwitterBot
      *
      * @param string $method
      * @param string $path
+     * @param string $file
      * @param array $parameters
      * @return Response
      */
-    public function upload(string $method, string $path, array $parameters = []): Response
+    public function upload(string $file, string $method, string $path, array $parameters = []): Response
     {
         $url = sprintf('%s/%s/%s', static::UPLOAD_URL, static::API_VERSION, $path);
 
-        return $this->call($method, $url, $parameters, [], ResponseTypes::JSON);
+        $parameters['media_data'] = base64_encode(file_get_contents($file));
+
+        return $this->call($method, $url, $parameters);
     }
 
     /**
@@ -151,9 +153,9 @@ class TwitterBot
     private function call(
         string $method,
         string $url,
-        array $parameters,
-        array $body,
-        int $responseType
+        array $parameters = [],
+        array $body = [],
+        int $responseType = ResponseTypes::JSON
     ): Response
     {
         return $this->client->call(

@@ -4,7 +4,8 @@
 
 # Twitter Bot
 
-This package is a basic Twitter bot that handles authentication, HTTP requests and responses, and other primitive requirements.
+This package is a basic Twitter bot that handles authentication, HTTP requests and responses,
+and other primitive requirements.
 It doesn't focus on any specific Twitter API. It provides a tool that makes calling Twitter APIs easier, instead.
 You can see a few samples below.
 
@@ -44,7 +45,7 @@ This sample shows how to call search API and search for tweets that contain the 
 use MiladRahimi\TwitterBot\V1\TwitterBot;
 
 $bot = TwitterBot::create(CONSUMER_KEY, CONSUMER_SECRET);
-$response = $bot->request('GET', 'search/tweets.json', ['q' => '#pink_floyd']);
+$response = $bot->api('GET', 'search/tweets.json', ['q' => '#pink_floyd']);
 
 if ($response->status() == 200) {
     print_r($response->content());
@@ -58,8 +59,10 @@ if ($response->status() == 200) {
 Authenticated endpoints work only with authenticated user tokens.
 A user token includes two parts, user token, and user token secret.
 
-If you want to call Twitter APIs on behalf of yourself, you can get your token and token secret from your Twitter Developer Portal.
-If you want to call Twitter APIs on behalf of other users, you must authorize them before, as mentioned later in this documentation.
+If you want to call Twitter APIs on behalf of yourself,
+you can get your token and token secret from your Twitter Developer Portal.
+If you want to call Twitter APIs on behalf of other users,
+you must authorize them before, as mentioned later in this documentation.
 
 * Tweet (Update Status) API
 
@@ -70,7 +73,7 @@ use MiladRahimi\TwitterBot\V1\TwitterBot;
 
 $bot = TwitterBot::create(CONSUMER_KEY, CONSUMER_SECRET);
 $bot->setOAuthToken(TOKEN, TOKEN_SECRET);
-$response = $bot->request('POST', 'statuses/update.json', ['status' => 'Hello from bot!']);
+$response = $bot->api('POST', 'statuses/update.json', ['status' => 'Hello from bot!']);
 
 print_r($response->content());
 ```
@@ -89,18 +92,44 @@ use MiladRahimi\TwitterBot\V1\TwitterBot;
 
 $bot = TwitterBot::create(CONSUMER_KEY, CONSUMER_SECRET);
 $bot->setOAuthToken(TOKEN, TOKEN_SECRET);
-$response = $bot->json('POST', 'direct_messages/events/new.json', [
+$response = $bot->apiJson('POST', 'direct_messages/events/new.json', [
     'event' => [
         'type' => 'message_create',
         'message_create' => [
             'target' => [
-                'recipient_id' => USER_ID,
+                'recipient_id' => 666,
             ],
             'message_data' => [
                 'text' => 'Hello from bot!',
             ]
         ]
     ]
+]);
+
+print_r($response->content());
+```
+
+### Sample of Uploading Media
+
+You might need to upload media.
+For example, if you want to tweet a photo, you need to upload it first.
+The following example illustrates how to upload a photo and tweet it.
+
+```php
+use MiladRahimi\TwitterBot\V1\TwitterBot;
+
+$bot = TwitterBot::create(CONSUMER_KEY, CONSUMER_SECRET);
+$bot->setOAuthToken(TOKEN, TOKEN_SECRET);
+
+$file = __DIR__ . '/files/pink-floyd.jpg';
+$mediaResponse = $bot->upload($file, 'POST', 'media/upload.json', [
+    'media_category' => 'tweet_image',
+    'media_type' => 'image/jpeg',
+]);
+
+$response = $bot->api('POST', 'statuses/update.json', [
+    'status' => 'Hello from bot!',
+    'media_ids' => $mediaResponse->content()['media_id'],
 ]);
 
 print_r($response->content());
@@ -113,7 +142,8 @@ It's an implementation of "Login with Twitter" indeed.
 
 #### Request for Token and Redirection Link
 
-First, you must request a user token and confirm your callback URL implicitly (Consider setting your callback URL in your Twitter Developer Portal).
+First, you must request a user token and confirm your callback URL implicitly
+(Consider setting your callback URL in your Twitter Developer Portal).
 Then you can redirect the user to the Twitter website to approve your request (token).
 
 ```php
@@ -121,7 +151,7 @@ use MiladRahimi\TwitterBot\V1\TwitterBot;
 
 $bot = TwitterBot::create(CONSUMER_KEY, CONSUMER_SECRET);
 
-$response = $bot->oauth('oauth/request_token', [
+$response = $bot->oauth('POST', 'oauth/request_token', [
     'oauth_callback' => 'https://your-app.com/twitter/callback',
 ]);
 
@@ -147,7 +177,7 @@ use MiladRahimi\TwitterBot\V1\TwitterBot;
 
 $bot = TwitterBot::create(CONSUMER_KEY, CONSUMER_SECRET);
 
-$response = $bot->oauth('oauth/access_token', [
+$response = $bot->oauth('POST', 'oauth/access_token', [
     'oauth_token' => $_REQUEST['oauth_token'],
     'oauth_verifier' => $_REQUEST['oauth_verifier'],
 ]);
@@ -155,8 +185,20 @@ $response = $bot->oauth('oauth/access_token', [
 print_r($response->content()); // oauth_token, oauth_token_secret, screen_name, ...
 ```
 
+### Timeout
+
+In default, the HTTP (cURL) timeout is 10 seconds.
+You can set your desired timeout (in seconds) like the following example.
+
+```php
+use MiladRahimi\TwitterBot\V1\TwitterBot;
+
+$bot = TwitterBot::create(CONSUMER_KEY, CONSUMER_SECRET);
+
+$bot->getClient()->setTimeout(13);
+```
+
 ## License
 
 PhpRouter is initially created by [Milad Rahimi](https://miladrahimi.com)
 and released under the [MIT License](http://opensource.org/licenses/mit-license.php).
-

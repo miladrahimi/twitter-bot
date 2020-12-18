@@ -1,8 +1,9 @@
 <?php
 
-namespace MiladRahimi\TwitterBot\V1\OAuth1;
+namespace MiladRahimi\TwitterBot\V1;
 
 use MiladRahimi\TwitterBot\Clients\Http\Request as RequestContract;
+use MiladRahimi\TwitterBot\V1\OAuth1\Authorizer;
 
 class Request implements RequestContract
 {
@@ -71,6 +72,8 @@ class Request implements RequestContract
 
         if ($this->body) {
             $headers[] = 'Content-type: application/json';
+        } else {
+            $headers[] = 'Content-Type: application/x-www-form-urlencoded';
         }
 
         return $headers;
