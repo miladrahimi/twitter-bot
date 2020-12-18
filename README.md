@@ -75,6 +75,37 @@ $response = $bot->request('POST', 'statuses/update.json', ['status' => 'Hello fr
 print_r($response->content());
 ```
 
+### Sample of a JSON API
+
+Some Twitter APIs like sending direct message API needs a JSON body.
+The example below demonstrates how to call APIs with JSON body.
+
+* Sending Direct Message API
+
+This sample shows how to call sending direct message API and send the given message to the given user.
+
+```php
+use MiladRahimi\TwitterBot\V1\TwitterBot;
+
+$bot = TwitterBot::create(CONSUMER_KEY, CONSUMER_SECRET);
+$bot->setOAuthToken(TOKEN, TOKEN_SECRET);
+$response = $bot->json('POST', 'direct_messages/events/new.json', [
+    'event' => [
+        'type' => 'message_create',
+        'message_create' => [
+            'target' => [
+                'recipient_id' => USER_ID,
+            ],
+            'message_data' => [
+                'text' => 'Hello from bot!',
+            ]
+        ]
+    ]
+]);
+
+print_r($response->content());
+```
+
 ### Authorize Users (Login with Twitter)
 
 This section explains how to authorize users to get their tokens and token secrets.
