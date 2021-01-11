@@ -62,7 +62,9 @@ class HttpResponse implements Response
      */
     public function content(): array
     {
-        return [];
+        return [
+            'body' => $this->body,
+        ];
     }
 
     /**
@@ -71,10 +73,9 @@ class HttpResponse implements Response
     public function toArray(): array
     {
         return [
-            'status' => $this->status,
-            'headers' => $this->headers,
-            'body' => $this->body,
-            'content' => $this->body,
+            'status' => $this->status(),
+            'headers' => $this->headers(),
+            'content' => $this->content(),
         ];
     }
 
