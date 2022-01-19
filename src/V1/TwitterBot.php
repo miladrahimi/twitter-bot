@@ -12,9 +12,9 @@ use MiladRahimi\TwitterBot\V1\OAuth1\Token;
 
 class TwitterBot
 {
-    private const API_URL = 'https://api.twitter.com';
-    private const UPLOAD_URL = 'https://upload.twitter.com';
-    private const API_VERSION = '1.1';
+    private static $apiUrl = 'https://api.twitter.com';
+    private static $uploadUrl = 'https://upload.twitter.com';
+    private static $apiVersion = '1.1';
 
     /**
      * @var Client
@@ -74,7 +74,7 @@ class TwitterBot
      */
     public function oauth(string $method, string $path, array $parameters = []): Response
     {
-        $url = sprintf('%s/%s', static::API_URL, $path);
+        $url = sprintf('%s/%s', static::$apiUrl, $path);
 
         return $this->call($method, $url, $parameters, [], ResponseTypes::QUERY_STRING);
     }
@@ -87,7 +87,7 @@ class TwitterBot
      */
     public function oauthUrl(string $oauthToken): string
     {
-        return sprintf('%s/%s?%s', self::API_URL, 'oauth/authorize', http_build_query([
+        return sprintf('%s/%s?%s', self::$apiUrl, 'oauth/authorize', http_build_query([
             'oauth_token' => $oauthToken,
         ]));
     }
@@ -102,7 +102,7 @@ class TwitterBot
      */
     public function api(string $method, string $path, array $parameters = []): Response
     {
-        $url = sprintf('%s/%s/%s', static::API_URL, static::API_VERSION, $path);
+        $url = sprintf('%s/%s/%s', static::$apiUrl, static::$apiVersion, $path);
 
         return $this->call($method, $url, $parameters);
     }
@@ -117,7 +117,7 @@ class TwitterBot
      */
     public function apiJson(string $method, string $path, array $body = []): Response
     {
-        $url = sprintf('%s/%s/%s', static::API_URL, static::API_VERSION, $path);
+        $url = sprintf('%s/%s/%s', static::$apiUrl, static::$apiVersion, $path);
 
         return $this->call($method, $url, [], $body);
     }
@@ -133,7 +133,7 @@ class TwitterBot
      */
     public function upload(string $file, string $method, string $path, array $parameters = []): Response
     {
-        $url = sprintf('%s/%s/%s', static::UPLOAD_URL, static::API_VERSION, $path);
+        $url = sprintf('%s/%s/%s', static::$uploadUrl, static::$apiVersion, $path);
 
         $parameters['media_data'] = base64_encode(file_get_contents($file));
 
@@ -164,17 +164,41 @@ class TwitterBot
         );
     }
 
-    /**
-     * @return Client
-     */
+    public static function getApiUrl(): string
+    {
+        return self::$apiUrl;
+    }
+
+    public static function setApiUrl(string $apiUrl): void
+    {
+        self::$apiUrl = $apiUrl;
+    }
+
+    public static function getUploadUrl(): string
+    {
+        return self::$uploadUrl;
+    }
+
+    public static function setUploadUrl(string $uploadUrl): void
+    {
+        self::$uploadUrl = $uploadUrl;
+    }
+
+    public static function getApiVersion(): string
+    {
+        return self::$apiVersion;
+    }
+
+    public static function setApiVersion(string $apiVersion): void
+    {
+        self::$apiVersion = $apiVersion;
+    }
+
     public function getClient(): Client
     {
         return $this->client;
     }
 
-    /**
-     * @param Client $client
-     */
     public function setClient(Client $client): void
     {
         $this->client = $client;

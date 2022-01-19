@@ -4,9 +4,10 @@
 
 # Twitter Bot
 
-This package is a basic Twitter bot that handles authentication, HTTP requests and responses,
+This package is a basic Twitter bot that handles authentication, HTTP requests/responses, 
 and other primitive requirements.
-It doesn't focus on any specific Twitter API. It provides a tool that makes calling Twitter APIs easier, instead.
+It doesn't focus on any specific Twitter API.
+It provides a tool that makes calling Twitter APIs easier, instead.
 You can see a few samples below.
 
 ## Installation
@@ -21,9 +22,9 @@ composer require miladrahimi/twitter-bot "1.*"
 
 ### Getting Started
 
-The snippet below demonstrates how to create an instance of Twitter Bot.
-It requires your consumer key (API Key) and consumer secret (API Key Secret).
-You can get them from your Twitter Developer Portal.
+The snippet below demonstrates how to create an instance of the Twitter Bot.
+It requires your consumer key (API Key) and your consumer secret (API Key Secret).
+You can get them from your [Twitter Developer Portal](https://developer.twitter.com).
 
 ```php
 use MiladRahimi\TwitterBot\V1\TwitterBot;
@@ -34,7 +35,7 @@ $bot = TwitterBot::create(CONSUMER_KEY, CONSUMER_SECRET);
 
 ### Sample of a Public Endpoint
 
-Public endpoints work without authentication and user tokens.
+Public endpoints work without authentication (user tokens).
 You can call public endpoints like the following sample.
 
 * Search API
@@ -200,5 +201,5 @@ $bot->getClient()->setTimeout(13);
 
 ## License
 
-PhpRouter is initially created by [Milad Rahimi](https://miladrahimi.com)
+PhpRouter is initially created by [Milad Rahimi](https://github.com/miladrahimi)
 and released under the [MIT License](http://opensource.org/licenses/mit-license.php).
