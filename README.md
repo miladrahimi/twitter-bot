@@ -61,8 +61,6 @@ you can get your token and token secret from your Twitter Developer Portal.
 If you want to call Twitter APIs on behalf of other users,
 you must authorize them before, as mentioned later in this documentation.
 
-* Tweet (Update Status) API
-
 This sample shows how to call update status API and tweet the given text.
 
 ```php
