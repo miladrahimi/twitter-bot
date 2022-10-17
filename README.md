@@ -79,9 +79,6 @@ print_r($response->content());
 
 Some Twitter APIs like sending direct message API needs a JSON body.
 The example below demonstrates how to call APIs with JSON body.
-
-* Sending Direct Message API
-
 This sample shows how to call sending direct message API and send the given message to the given user.
 
 ```php
