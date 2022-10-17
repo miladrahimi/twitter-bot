@@ -36,9 +36,6 @@ $bot = TwitterBot::create(CONSUMER_KEY, CONSUMER_SECRET);
 
 Public endpoints work without authentication and user tokens.
 You can call public endpoints like the following sample.
-
-* Search API
-
 This sample shows how to call search API and search for tweets that contain the given hashtag.
 
 ```php
