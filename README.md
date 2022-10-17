@@ -4,10 +4,9 @@
 
 # Twitter Bot
 
-This package is a basic Twitter bot that handles authentication, HTTP requests and responses,
-and other primitive requirements.
-It doesn't focus on any specific Twitter API. It provides a tool that makes calling Twitter APIs easier, instead.
-You can see a few samples below.
+This package is a basic Twitter bot that handles authentication, HTTP requests and responses, and other primitive requirements.
+It doesn't focus on any specific Twitter API.
+Instead, it provides a tool that makes calling Twitter APIs much simpler.
 
 ## Installation
 
@@ -32,11 +31,12 @@ $bot = TwitterBot::create(CONSUMER_KEY, CONSUMER_SECRET);
 // Your bot is ready!
 ```
 
-### Sample of a Public Endpoint
+### Public Endpoints
 
 Public endpoints work without authentication and user tokens.
 You can call public endpoints like the following sample.
-This sample shows how to call search API and search for tweets that contain the given hashtag.
+This sample shows how to call the search API.
+It searches for tweets that contain the given hashtag.
 
 ```php
 use MiladRahimi\TwitterBot\V1\TwitterBot;
@@ -51,17 +51,17 @@ if ($response->status() == 200) {
 }
 ```
 
-### Sample of an Authenticated Endpoint
+### Authenticated Endpoints
 
 Authenticated endpoints work only with authenticated user tokens.
-A user token includes two parts, user token, and user token secret.
+A user token includes a user token and a user token secret.
 
 If you want to call Twitter APIs on behalf of yourself,
 you can get your token and token secret from your Twitter Developer Portal.
-If you want to call Twitter APIs on behalf of other users,
+If you need to call Twitter APIs on behalf of other users,
 you must authorize them before, as mentioned later in this documentation.
 
-This sample shows how to call update status API and tweet the given text.
+This sample shows how to call the update status API and tweet the given text.
 
 ```php
 use MiladRahimi\TwitterBot\V1\TwitterBot;
@@ -73,10 +73,9 @@ $response = $bot->api('POST', 'statuses/update.json', ['status' => 'Hello from b
 print_r($response->content());
 ```
 
-### Sample of a JSON API
+### JSON APIs
 
-Some Twitter APIs like sending direct message API needs a JSON body.
-The example below demonstrates how to call APIs with JSON body.
+The example below demonstrates how to call APIs with JSON body (like the direct message API).
 This sample shows how to call sending direct message API and send the given message to the given user.
 
 ```php
@@ -101,7 +100,7 @@ $response = $bot->apiJson('POST', 'direct_messages/events/new.json', [
 print_r($response->content());
 ```
 
-### Sample of Uploading Media
+### Uploading Media
 
 You might need to upload media.
 For example, if you want to tweet a photo, you need to upload it first.
